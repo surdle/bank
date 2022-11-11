@@ -7,5 +7,9 @@ export default function useToast (err = 'Error desconocido') {
 
   setTimeout(() => {
     toast.classList.remove('active')
+    setTimeout(() => {
+      toast.classList.add('hidden')
+      toast.classList.remove('flex')
+    }, 1000)
   }, 5000) // 1s
 }

@@ -1,7 +1,7 @@
 export default function Transaction (props) {
   const { origin, value, date, receiver, description } = props.transaction
   return (
-    <>
+    <div class='fd'>
       <div class='grid grid-cols-1 xl:grid-cols-7 items-center gap-3 pb-10'>
         <div class='text-center'>
           <span class='block mb-2 text-base font-medium text-gray-900'>
@@ -47,6 +47,6 @@ export default function Transaction (props) {
           </span>
         </div>
       </div>
-    </>
+    </div>
   )
 }

@@ -1,7 +1,12 @@
 import './app.css'
 
 import usePage from './hooks/usePage'
-import { currentPage } from './signals/signal'
+import {
+  currentPage,
+  getAllTransactions,
+  getAllClients,
+  getID
+} from './signals/signal'
 
 import Login from './components/Login'
 import SignUp from './components/SingUp'
@@ -13,11 +18,18 @@ export function App () {
     currentPage,
     pages: ['login', 'signUp', 'panel'],
     children: [
-      <Login key='login' />,
-      <SignUp key='signup' />,
-      <Panel key='panel' />
+      <Login key='Login' />,
+      <SignUp key='SignUp' />,
+      <Panel key='Panel' />
     ]
   })
+
+  const handleInfo = () => {
+    console.log('### INFO ###')
+    console.log('current user', getID())
+    console.log('transactions', getAllTransactions())
+    console.log('clients', getAllClients())
+  }
 
   return (
     <div class='relative max-w-[2000px]'>
@@ -29,6 +41,12 @@ export function App () {
         {page}
       </container>
       <ErrorToast />
+      <span
+        class='max-w-xs block m-auto pointer text-white border-2 bg-black hover:bg-white hover:font-bold hover:text-black hover:border-black transition-all duration-300 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-xl text-sm px-5 py-2.5 text-center'
+        onClick={() => handleInfo()}
+      >
+        Info
+      </span>
     </div>
   )
 }

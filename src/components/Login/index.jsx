@@ -1,5 +1,5 @@
 import { signal } from '@preact/signals'
-import { loginAccount, changePage, changeUser } from '../../signals/signal'
+import { loginAccount, changePage, setID, currentBalance, getCurrentBalance, getClientTransactions } from '../../signals/signal'
 
 import useToast from '../../hooks/useToast'
 
@@ -10,12 +10,16 @@ export default function Login () {
   })
 
   const handleLogin = () => {
-    const success = loginAccount(currentUser.value.accountID,
-      +currentUser.value.accountPIN)
+    const success = loginAccount(
+      currentUser.value.accountID,
+      currentUser.value.accountPIN
+    )
 
     if (success) {
-      changeUser(currentUser.value.accountID)
+      setID(currentUser.value.accountID)
       changePage('panel')
+      currentBalance.value = getCurrentBalance()
+      getClientTransactions()
     } else {
       useToast('Cuenta o PIN incorrectos')
     }
@@ -38,7 +42,9 @@ export default function Login () {
             Número de cédula
           </label>
           <input
-            onChange={(e) => { currentUser.value.accountID = e.target.value }}
+            onChange={e => {
+              currentUser.value.accountID = e.target.value
+            }}
             type='text'
             name='dni'
             id='dni'
@@ -57,7 +63,9 @@ export default function Login () {
             PIN de acceso
           </label>
           <input
-            onChange={(e) => { currentUser.value.accountPIN = e.target.value }}
+            onChange={e => {
+              currentUser.value.accountPIN = e.target.value
+            }}
             type='text'
             name='pin'
             id='pin'

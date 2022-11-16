@@ -1,7 +1,7 @@
-import { currentUser } from '../../signals/signal'
+import { getData } from '../../signals/signal'
 
 export default function Data () {
-  const { name, cpf, age, creationDate } = currentUser.value
+  const { name, id, age, creationDate } = getData()
   return (
     <div class='p-4 w-96 max-w-sm bg-white rounded-xl border border-black shadow-md sm:p-6 md:p-8 fd'>
       <span class='font-bold text-xl mb-4 block'>Datos personales</span>
@@ -25,7 +25,7 @@ export default function Data () {
             Número de cédula
           </label>
           <span class='font-bold rounded-xl border border-gray-300 py-2 px-4 block'>
-            {cpf}
+            {id}
           </span>
         </div>
         <div>

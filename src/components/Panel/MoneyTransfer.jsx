@@ -1,4 +1,4 @@
-import { newTransaction, currentUser, getAllClients } from '../../signals/signal'
+import { newTransaction, getID, getCurrentBalance, getAllClients, depositMoney, withdrawMoney, getClientTransactions } from '../../signals/signal'
 import { signal } from '@preact/signals'
 import useToast from '../../hooks/useToast'
 
@@ -10,7 +10,7 @@ export default function MoneyTransfer () {
   })
 
   const handleTransfer = () => {
-    if (data.value.receiver === currentUser.value.cpf) {
+    if (data.value.receiver === getID()) {
       useToast('No puedes transferirte dinero a ti mismo')
       return false
     }
@@ -20,7 +20,7 @@ export default function MoneyTransfer () {
       return false
     }
 
-    if (data.value.quantity > currentUser.value.balance) {
+    if (data.value.quantity > getCurrentBalance()) {
       useToast('La cantidad no puede ser mayor a tu saldo')
       return false
     }
@@ -30,7 +30,7 @@ export default function MoneyTransfer () {
       return false
     }
 
-    const exist = getAllClients().find((client) => client.cpf === data.value.receiver)
+    const exist = getAllClients().find((client) => client.id === data.value.receiver)
     if (!exist) {
       useToast('No existe una cuenta con ese número de cédula')
       return false
@@ -38,10 +38,11 @@ export default function MoneyTransfer () {
 
     console.log(data.value)
     const { receiver, quantity, desc } = data.value
-    const { cpf } = currentUser.value
-    currentUser.value = { ...currentUser.value, balance: currentUser.value.balance - quantity }
-    exist.balance = exist.balance + +quantity
-    newTransaction(cpf, quantity, desc, receiver)
+    depositMoney(receiver, +quantity, true)
+    withdrawMoney(getID(), +quantity, true)
+    newTransaction(getID(), +quantity, desc, receiver)
+    getCurrentBalance()
+    getClientTransactions()
   }
   return (
     <div class='p-4 w-96 max-w-sm bg-white rounded-xl border border-black shadow-md sm:p-6 md:p-8 fd'>

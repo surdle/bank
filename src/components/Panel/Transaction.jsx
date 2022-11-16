@@ -1,5 +1,5 @@
 export default function Transaction (props) {
-  const { origin, value, dateString, receiver, description } = props.transaction
+  const { origin, value, date, receiver, description } = props.transaction
   return (
     <>
       <div class='grid grid-cols-1 xl:grid-cols-7 items-center gap-3 pb-10'>
@@ -43,7 +43,7 @@ export default function Transaction (props) {
             Fecha
           </span>
           <span class='font-bold rounded-xl border border-gray-300 py-2 px-4 block'>
-            {dateString}
+            {date}
           </span>
         </div>
       </div>

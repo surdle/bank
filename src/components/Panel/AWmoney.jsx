@@ -1,5 +1,5 @@
 import { signal } from '@preact/signals'
-import { depositMoney, withdrawMoney, currentUser } from '../../signals/signal'
+import { depositMoney, withdrawMoney, getCurrentBalance, getID, getClientTransactions } from '../../signals/signal'
 import useToast from '../../hooks/useToast'
 
 const quantity = signal(0)
@@ -8,29 +8,39 @@ export default function AWmoney () {
   const addMoney = () => {
     quantity.value = Number(quantity.value)
     if (quantity.value <= 0 || isNaN(quantity.value)) {
-      console.log('Error', quantity.value)
       useToast('La cantidad debe ser mayor a 0 y ser un número')
+      quantity.value = 0
       return false
     }
 
-    depositMoney(quantity.value)
+    console.log('Deposit money', quantity.value)
+
+    depositMoney(getID(), quantity.value)
+    quantity.value = 0
+    getCurrentBalance()
+    getClientTransactions()
   }
 
   const removeMoney = () => {
     quantity.value = Number(quantity.value)
     if (quantity.value <= 0 || isNaN(quantity.value)) {
-      console.log('Error', quantity.value)
       useToast('La cantidad debe ser mayor a 0 y ser un número')
+      quantity.value = 0
       return false
     }
 
-    if (quantity.value > currentUser.value.balance) {
-      console.log('Error', quantity.value)
+    if (quantity.value > getCurrentBalance()) {
       useToast('Error: La cantidad no puede ser mayor a tu saldo')
+      quantity.value = 0
       return false
     }
 
-    withdrawMoney(quantity.value)
+    console.log('remove money', quantity.value)
+
+    withdrawMoney(getID(), quantity.value)
+    quantity.value = 0
+    getCurrentBalance()
+    getClientTransactions()
   }
 
   return (

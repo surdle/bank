@@ -1,25 +1,29 @@
 import { signal } from '@preact/signals'
-import { newAccount, changePage, getAllClients } from '../../signals/signal'
+import { registerAccount, changePage } from '../../signals/signal'
 import useToast from '../../hooks/useToast'
 
 const pin = signal(0)
 const currentUser = signal({
   accountName: 'Tristan Vidal',
   accountID: '666',
-  age: '12',
-  balance: 0
+  age: '12'
 })
 
 export default function SignUp () {
   const handleSignUp = () => {
-    const { accountName, accountID, age, balance } = currentUser.value
+    const { accountName, accountID, age } = currentUser.value
 
-    const exist = getAllClients().find((client) => client.cpf === accountID)
-    if (exist) {
-      useToast('Ya existe una cuenta con esa identificación')
+    if (accountName === '' || accountID === '' || age === '') {
+      useToast('Se deben llenar todos los campos')
       return false
     }
-    pin.value = newAccount(accountName, accountID, age, balance)
+
+    pin.value = registerAccount(accountName, accountID, age)
+
+    if (pin.value === 0) {
+      useToast('Ya existe esa cuenta')
+      return false
+    }
   }
 
   return (

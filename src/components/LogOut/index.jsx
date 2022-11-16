@@ -1,22 +1,16 @@
-import { changePage, currentUser } from '../../signals/signal'
+import { changePage, setID, currentBalance } from '../../signals/signal'
 
 export default function LogOut () {
   const handleLogOut = () => {
-    currentUser.value = {
-      name: '',
-      cpf: '',
-      age: '',
-      balance: 0,
-      pin: '',
-      creationDate: ''
-    }
+    setID('')
+    currentBalance.value = 0
 
     changePage('login')
   }
 
   return (
     <div class='py-4 flex text-center justify-center fd'>
-      <span class='font-bold self-center pr-8'>Bienvenido {currentUser.value.name} </span>
+      <span class='font-bold self-center pr-8'>Bienvenido</span>
       <button
         onClick={() => handleLogOut()}
         id='change-login'

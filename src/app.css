@@ -30,10 +30,5 @@
   padding: 20px 35px 20px 25px;
   box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transform: translateX(calc(100% + 30px));
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.35);
 }
 
-.toast.active {
-  transform: translateX(0%);
-}
